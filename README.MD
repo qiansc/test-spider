@@ -2,7 +2,7 @@
 
 ## 背景
 
-现在有一个资源网页（http://106.12.192.227:3000/），里面包含一些资源号（mxxxxxxxx），资源号随时会新增一些（新增的位置不定，但旧资源不会删除）。请编写一个爬虫，每次执行时检查这个页面，当有资源新增时，能够发现。
+现在有一个资源网页http://106.12.192.227:3000/，里面包含一些资源号（mxxxxxxxx），资源号随时会新增一些（新增的位置不定，但旧资源不会删除）。请编写一个爬虫，每次执行时检查这个页面，当有资源新增时，能够发现。
 
 
 ## 目标
@@ -25,8 +25,8 @@ m91781946462
 * fetch-data.ts 已经写好了请求网页逻辑
 * 你可以从init.ts 开始你的编写
 * 每次抓取执行完毕，你可能需要存储当前已有的资源号，请放在data/existence.data
-* 文件操作参考(writeFileSync, readFileSync)(https://www.runoob.com/nodejs/nodejs-fs.html)
-* 如果你需要测试，可以自己设置proxy或使用本地api（http://localhost:3000/list），并修改server/example.data改变数据
+* 文件操作参考writeFileSync, readFileSync| https://www.runoob.com/nodejs/nodejs-fs.html
+* 如果你需要测试，可以自己设置proxy或使用http://localhost:3000/list，并修改server/example.data改变数据
 
 ```bash
 cd server
