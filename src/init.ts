@@ -1,28 +1,27 @@
 import { fetchData } from './fetch-data';
-// import { writeFileSync, readFileSync } from 'fs';
-// import { resolve } from 'path';
+import { parserFactory } from './parser/parser-factory';
+import { diffAndSave } from './diff';
+import { Options } from './types/options';
+import { DataList } from './types/data-list';
+import { Log } from './log'
 
-interface ProcessOptions{}
-
-export async function init(options?: ProcessOptions) {
-    let htmlContent = await fetchData();
-    
-    // start your code here
-    console.log(htmlContent);
-
-    if (false) {
-        getcha();
-    } else {
-        console.log('未能找到！');
-    }
+export async function init(options: Options) {
+    prepare(options.logFile)
+    runTask(options)
 }
 
-function getcha() {
-    console.log('发现了新增内容！');
+function prepare(logFile: string) {
+    Log.getOrCreate(logFile)
 }
 
-// 以下是读写文件示例，__dirname指的是当前文件的工作目录
-// writeFileSync('../log/test.log', '测试文本');
-// const txt = readFileSync('.../log/test.log');
-// const filePath = resolve(__dirname, '../log/test.log');
-// console.log(filePath, txt);
+function runTask(options: Options) {
+    const parser = parserFactory(options.upstreamType);
+
+    return Promise.resolve()
+        .then(() => fetchData(options.upstreamURL))
+        .then((content: string) => parser.parse(content))
+        .then((list: DataList) => diffAndSave(options, list))
+        .catch((err: Error) => {
+            Log.getOrCreate().error('error parse', err.stack)
+        })
+}
