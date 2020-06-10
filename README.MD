@@ -24,7 +24,8 @@ m91781946462
 现在src下有一个初始项目，做了少量工作
 
 * npm install
-* src目录下已经有初始代码了，通过npm run start 或 node_modules/.bin/ts-node src/index.ts均可执行，目前执行的结果是显示http://106.12.192.227:3000/的内容
+* src目录下已经有初始代码了，通过npm run start 或 node_modules/.bin/ts-node src/index.ts均可执行，目前执行的结果是显示http://106.12.192.227:3000/
+的内容
 * fetch-data.ts 已经写好了请求网页逻辑
 * 你可以从init.ts 开始你的编写
 * 每次抓取执行完毕，你可能需要存储当前已有的资源号，请放在data/existence.data
