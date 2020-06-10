@@ -30,7 +30,9 @@ m91781946462
 * 你可以从init.ts 开始你的编写
 * 每次抓取执行完毕，你可能需要存储当前已有的资源号，请放在data/existence.data
 * 文件操作参考writeFileSync, readFileSync| https://www.runoob.com/nodejs/nodejs-fs.html
-* 如果你需要测试，可以自己设置proxy或使用http://localhost:3000/list，并修改server/example.data改变数据
+* 如果你需要测试，可以用自己的方法或使用http://localhost:3000/list
+，并修改server/example.data改变数据
+* 循环执行的逻辑不必实现
 
 ```bash
 cd server
