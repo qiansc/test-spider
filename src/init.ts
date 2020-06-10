@@ -6,6 +6,7 @@ export async function init(options?: ProcessOptions) {
     let htmlContent = await fetchData();
     
     // start your code here
+    console.log(htmlContent);
 
     if (false) {
         getcha();
