@@ -35,7 +35,7 @@ m91781946462
   * http://106.12.192.227:3000/json
   * http://106.12.192.227:3000/list
 
-## Checkpoint 3
+## Checkpoint 3（T3~T4限定）
 
 > 在完成Checkpoint 2基础上，完成以下可以获得★★
 
@@ -43,7 +43,7 @@ m91781946462
 * 测试覆盖率100%
 
 
-## Checkpoint 4
+## Checkpoint 4（T3~T4限定）
 
 > 在完成Checkpoint 3基础上，完成以下可以获得★
 
