@@ -36,11 +36,19 @@ m91781946462
   * http://106.12.192.227:3000/list
 
 ## Checkpoint 3
+
 > 在完成Checkpoint 2基础上，完成以下可以获得★★
 
+* 增加测试工具jest、测试覆盖率工具coveralls，参考https://github.com/searchfe/makit
 * 测试覆盖率100%
 
-  
+
+## Checkpoint 4
+
+> 在完成Checkpoint 3基础上，完成以下可以获得★
+
+* 在github上实现持续集成，展现测试覆盖率（请fork到自己代码仓库实现），参考https://github.com/searchfe/makit
+
 ## 提交代码
 
 完成工作请将代码提交到分支~
