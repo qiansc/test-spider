@@ -51,13 +51,13 @@ m91781946462
 
 ## 提交代码
 
-完成Checkpoint 1~2请将代码提交到分支~
+完成Checkpoint 1~2 请将代码提交到分支~
 
 ```
 git push origin HEAD:yourname
 ```
 
-完成Checkpoint 3~4请提交到自己fork的仓库
+完成Checkpoint 3~4 请提交到自己fork的仓库
 
 ## 提示
 
