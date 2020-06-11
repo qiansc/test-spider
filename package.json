@@ -18,6 +18,8 @@
     "xfetch": "^3.14.3"
   },
   "dependencies": {
-    "@types/jsdom": "^16.2.3"
+    "@types/jsdom": "^16.2.3",
+    "@types/xml2json": "^0.11.0",
+    "xml2json": "^0.12.0"
   }
 }

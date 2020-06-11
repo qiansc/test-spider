@@ -1,6 +1,6 @@
 import fetch from 'xfetch';
 
-export async function fetchData() {
+export async function fetchData(): Promise<string> {
     return fetch(`http://106.12.192.227:3000/`, {
         "headers": {
         "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
