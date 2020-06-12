@@ -35,7 +35,8 @@ export class ListService {
     getJson() {
         return {
             status: 0,
-            list: this.dataService.getData()
+            list: this.dataService.getData(),
+            length: this.dataService.getData().length
         }
     }
     getLine() {
