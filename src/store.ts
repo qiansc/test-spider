@@ -1,36 +1,53 @@
-import fs from 'fs';
-import path from 'path';
-
-const DATA_PATH = path.join(__dirname, '..', 'data', 'output.data');
-
-export enum EPushResult {
-    FAILD = -1,
-    NOUPDATE = 0,
-    SUCCEED = 1
-}
-
-export interface IStore {
-    pushData<T>(data: T, dataGetter: IDataGetter): Promise<EPushResult>;
-}
-
-export interface IDataGetter {
-    (data: object): string;
-}
+import { IStore } from './types';
+import { writeFile } from './file-helper';
+import { config } from './config';
+import { Logger } from './logger';
 
 export class Store implements IStore {
-    async pushData<T>(data: T, dataGetter: IDataGetter) {
+    private queue: Array<Array<string>> = [];
+    private isPushing: boolean = false;
+    constructor(private cache: {[key: string]: boolean}) {}
+
+    pushData(data: Array<string>) {
+        this.queue.push(data);
+        this.doPush();
+    }
+
+    doPush() {
+        if (this.isPushing) {
+            return;
+        }
+        let data = this.queue.shift();
+        if (!data) {
+            this.isPushing = false;
+            return;
+        }
         const newData = [];
+        console.log('------total count-----', data.length);
         data.forEach(item => {
-            const itemId = item.span.$t;
-            if (!this.cache[itemId]) {
-                newData.push(itemId);
-                this.cache[itemId] = true;
+            if (!this.cache[item]) {
+                newData.push(item);
+                this.cache[item] = true;
             }
         });
-        result = `${newData.join('\n')}\n`;
-        return result;
+        console.log('------new data----', newData.length);
+        if (newData.length === 0) {
+            this.isPushing = false;
+            return this.doPush();
+        }
+        const content = `${newData.join('\n')}\n`;
         // 使用异步api
-        fs.writeFileSync(DATA_PATH, data.toString(), {flag: 'a'});
-        return EPushResult.SUCCEED;
+        writeFile(config.dataPath, content)
+            .catch(err => {
+                // 缓存回退
+                newData.forEach(item => {
+                    this.cache[item] = false;
+                });
+                Logger.report({ erroType: 'promise', message: content });
+            })
+            .finally(() => {
+                this.isPushing = false;
+                this.doPush();
+            });
     }
 }

@@ -1,40 +1,20 @@
-import {fetchData as fetch} from './fetch-data';
-import {IStore, EPushResult} from './store';
-import { toJson } from 'xml2json';
+import {IStore, Ifetcher} from './types';
+import { config } from './config';
 
-interface DataStructure {
-    html: {
-        body: {
-            div: {
-                li: Array<{
-                    span: {$t: string}
-                }>
-            }
-        }
-    }
+interface ISpiderOptions {
+    store: IStore;
+    fetcher: Ifetcher;
 }
-
-function parse(input: string) {
-    let result = [];
-    const formatedData  = toJson(input, { object: true }) as DataStructure;
-    const allData = formatedData.html.body.div.li;
-    if (allData && allData.length > 0) {
-        result = allData;
-    }
-    return result;
-}
-
-function dataGetter(item: {span: {$t: string}}) {
-    return item.span.$t;
-}
-
 
 export class Spider {
-    private cache: {[key:string]: boolean} = {};
-    constructor(
-        private period: number,
-        private store: IStore
-    ) {}
+    private store: IStore;
+    private fetcher: Ifetcher;
+    private period: number;
+    constructor(options: ISpiderOptions) {
+        this.store = options.store;
+        this.fetcher = options.fetcher;
+        this.period = config.period;
+    }
 
     run() {
         process.nextTick(() => {
@@ -42,21 +22,20 @@ export class Spider {
         });
     }
 
-    stop() {}
-
     async perform() {
-        const newData = await fetch();
-        const parsedData = parse(newData);
-        const result = await this.pushData(parsedData);
-        if (result === EPushResult.SUCCEED) {
-            setTimeout(this.perform.bind(this), this.period);
-        }
+        this.fetcher.fetchAndParse()
+            .then(res => {
+                this.pushData(res);
+            })
+            .finally(() => {
+                setTimeout(this.perform.bind(this), this.period);
+            });
     }
     
-    pushData(data: Array<any>) {
+    pushData(data: Array<string>): Promise<boolean> {
         if (data.length === 0) {
-            return Promise.resolve(EPushResult.SUCCEED)
+            return Promise.resolve(true)
         }
-        return this.store.pushData(data, dataGetter);
+        this.store.pushData(data);
     }
 }
