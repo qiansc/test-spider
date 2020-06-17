@@ -1,28 +1,40 @@
-import { fetchData } from './fetch-data';
-// import { writeFileSync, readFileSync } from 'fs';
-// import { resolve } from 'path';
+import { Spider } from './spider';
+import { Store } from './store';
+import { Logger } from './logger';
+import { fetcher } from './fetcher';
+import { config } from './config';
+import { readFileSync } from './file-helper';
 
-interface ProcessOptions{}
-
-export async function init(options?: ProcessOptions) {
-    let htmlContent = await fetchData();
-    
-    // start your code here
-    console.log(htmlContent);
-
-    if (false) {
-        getcha();
-    } else {
-        console.log('未能找到！');
-    }
+function loadData(dataPath: string): {[key:string]: boolean} {
+    let result = {};
+    let content = readFileSync(dataPath);
+    content.split('\n').forEach(str => {
+        if (str.trim().length > 0) {
+            result[str] = true;
+        }
+    });
+    return result;
 }
 
-function getcha() {
-    console.log('发现了新增内容！');
+export async function init() {
+    process.nextTick(() => {
+        const previousData = loadData(config.dataPath);
+        const spider = new Spider({
+            store: new Store(previousData),
+            fetcher: new fetcher(),
+        });
+        spider.run();
+    });
+    process.on('uncaughtException', (err, origin) => {
+        Logger.report({
+            erroType: 'global exception\n',
+            message: `Caught exception: ${err}\nException origin: ${origin}\n`,
+        });
+    });
+    process.on('unhandledRejection', (reason, promise) => {
+        Logger.report({
+            erroType: 'unhandled promise\n',
+            message: `Unhandled Rejection at: ${promise}\nReason: ${reason}\n`,
+        });
+    });
 }
-
-// 以下是读写文件示例，__dirname指的是当前文件的工作目录
-// writeFileSync('../log/test.log', '测试文本');
-// const txt = readFileSync('.../log/test.log');
-// const filePath = resolve(__dirname, '../log/test.log');
-// console.log(filePath, txt);
