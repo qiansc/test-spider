@@ -14,6 +14,11 @@ interface HTMLStructure {
     }
 }
 
+interface JSONStructure {
+    status: number;
+    list: Array<string>;
+}
+
 const dataParsers = {
     html(data: string): fetcherReturnType  {
         let result = [];
@@ -25,7 +30,8 @@ const dataParsers = {
         return result.map(item => item.span.$t);
     },
     json(data: string): fetcherReturnType {
-        return [];
+        const formatedData = JSON.parse(data) as JSONStructure;
+        return formatedData.list;
     },
 }
 
