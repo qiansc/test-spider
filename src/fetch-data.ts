@@ -1,7 +1,7 @@
 import fetch from 'xfetch';
 
 export async function fetchData() {
-    return fetch(`http://106.12.192.227:3000/`, {
+    return fetch(`http://106.12.192.227:3000/json`, {
         "headers": {
         "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
         "accept-language": "ja-jp;q=0.9,ja;q=0.8,en;q=0.7",

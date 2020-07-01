@@ -18,6 +18,7 @@
     "xfetch": "^3.14.3"
   },
   "dependencies": {
-    "@types/jsdom": "^16.2.3"
+    "@types/jsdom": "^16.2.3",
+    "htmlparser2": "^4.1.0"
   }
 }
